@@ -47,6 +47,14 @@
                 width: 90%; /* Adjust the width as needed for smaller screens */
             }
         }
+
+        .note {
+            position: absolute;
+            bottom: 10px;
+            text-align: center;
+            width: 100%;
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -58,6 +66,10 @@
         
         <p id="result_time">Ghar jane ka time : <b><span id="resultTime"></span></b></p>
     </div>
+
+    <p class="note">
+        Note: Please select refreshed emgage time
+    </p>
     
     <script>
     	const timePicker = document.getElementById("timePicker");
