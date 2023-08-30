@@ -65,6 +65,7 @@
         <button onclick="calculateTimeDifference()">Check</button>
         
         <p id="result_time">Ghar jane ka time : <b><span id="resultTime"></span></b></p>
+        <p id="break_time_p" style="display: none;">remaining Break time :<b><span id="break_time"></span></b></p>
     </div>
 
     <p class="note">
@@ -105,10 +106,13 @@
             const formattedTimeDifference = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
             
             // Get current system time
-            const currentTime = new Date();
+            const currentTime = new Date(`2000-01-01T19:00`);
             
             // Calculate result time by adding timeDifferenceMinutes to the current time
             const resultTime = new Date(currentTime.getTime() + (timeDifferenceMinutes * 60 * 1000));
+            
+
+            const differenceToSevenPM = (7 * 60) - (resultTime.getHours() * 60 + resultTime.getMinutes());
             
             // Format resultTime in 12-hour format
             const resultHours = resultTime.getHours() % 12 || 12;
@@ -117,13 +121,18 @@
             const formattedResultTime = `${resultHours.toString().padStart(2, '0')}:${resultMinutes.toString().padStart(2, '0')} ${ampm}`;
             
             document.getElementById("resultTime").textContent = formattedResultTime;
-            if (resultHours < 7 || (resultHours === 7 && resultMinutes < 5)) {
+            if (resultTime.getHours() < 19 || (resultTime.getHours() === 19 && resultTime.getMinutes() < 5)) {
                 document.getElementById("resultTime").textContent += ' 😁'; // Before 7:05 PM
-            } else if (resultHours > 7 || (resultHours === 7 && resultMinutes > 5)) {
+            } else if (resultTime.getHours() > 19 || (resultTime.getHours() === 19 && resultTime.getMinutes() > 5)) {
                 document.getElementById("resultTime").textContent += ' 😐'; // After 7:05 PM
-            }
-            else if (resultHours > 7 || (resultHours === 7 && resultMinutes >= 15)) {
+            } else if (resultTime.getHours() > 19 || (resultTime.getHours() === 19 && resultTime.getMinutes() >= 15)) {
                 document.getElementById("resultTime").textContent += ' 😡'; // After 7:15 PM
+            }
+                console.log(differenceToSevenPM)
+            if(differenceToSevenPM >= 0 ){
+                const breakTimeElement = document.getElementById("break_time_p");
+                breakTimeElement.style.display = "block";                
+                document.getElementById("break_time").textContent = `${differenceToSevenPM} Min`;   
             }
         }
        
